@@ -4,25 +4,25 @@ import './App.css';
 
 function App() {
   const [messageArray, setMessageArray] = useState([]);
-
   useEffect(() => {
     fetch('https://ohwuvawrw4.execute-api.us-west-2.amazonaws.com/messages')
       .then((response) => response.json())
-      .then((data) =>
+      .then((data) => {
+        console.log(data[0].created_by ,  ' <------ ')
         setMessageArray(
           data.map((element, index) => {
-            return <Message chat={element.message} key={index} />;
-          }).reverse()
-        )
+            // return <Message message={element.message} key={index} />;
+         
+            return <Message dateSent={element.created_at} message={element.message} key={index} />;
+          })
+        )}
       );
   }, []);
-
+  console.log(messageArray);
   return (
-    <div className="chat-container">
+    <div className='chat-container'>
       <h1> PTRI CHATS </h1>
-      <div className="message-list">
-        {messageArray}
-      </div>
+      {messageArray}
     </div>
   );
 }
